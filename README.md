@@ -1,10 +1,7 @@
 repo-docker-batch-may-2026
 Repository for docker batch may 2026
 
-#Documentation
-##Go Program
-	
-  How to build [Source Directory] (./vaibhav)
+- How to build Hello World Go Program
 
 - Use the go build command to run as below
    `go build EchoWebServer.go`
