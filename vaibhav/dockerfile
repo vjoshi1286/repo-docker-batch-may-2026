@@ -1,0 +1,9 @@
+FROM golang:1.26-alpine AS builder
+WORKDIR /app
+COPY Fibonacci.go .
+RUN CGO_ENABLED=0 go build Fibonacci.go
+
+FROM alpine:3.20
+WORKDIR /app
+COPY --from=builder /app/Fibonacci .
+CMD ["./Fibonacci","42"]
