@@ -16,7 +16,7 @@ export class Springbootresponse implements OnInit {
 
   ngOnInit(): void {
   console.log("inside ngoninit");
-  this.http.get('http://localhost:8080/api/message', { responseType: 'text' })
+  this.http.get('http://localhost:9000/api/message', { responseType: 'text' })
     .subscribe({
       next: (data) => {
         console.log("inside subscribe ",data);
