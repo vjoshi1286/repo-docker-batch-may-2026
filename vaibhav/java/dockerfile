@@ -1,0 +1,22 @@
+FROM ghcr.io/graalvm/native-image-community:25 AS builder
+
+WORKDIR /build
+
+COPY HelloWorld.java .
+
+RUN javac HelloWorld.java
+
+#Convert the bytecode to native image at the build stage
+RUN native-image HelloWorld -o HelloWorld
+
+
+# There is no JRE needed
+
+FROM ubuntu:24.04
+WORKDIR /app
+COPY --from=builder /build/HelloWorld .
+
+CMD ["./HelloWorld"]
+
+
+
