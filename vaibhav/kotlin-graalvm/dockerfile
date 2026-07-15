@@ -1,0 +1,19 @@
+# Stage 1 build Kotlin jar file from the kotlin source
+
+FROM saschpe/kotlinc AS kotlin-build
+WORKDIR /app
+COPY Main.kt .
+RUN kotlinc Main.kt -include-runtime -d app.jar
+
+# Stage 2 Again convert that jar file to the GraalVM native image
+
+FROM ghcr.io/graalvm/native-image-community:21 AS native-build
+WORKDIR /app
+COPY --from=kotlin-build /app/app.jar .
+RUN native-image -jar app.jar hello-kotlin
+
+# Stage 3 Finally run the executable
+FROM debian:stable-slim
+WORKDIR /app
+COPY --from=native-build /app/hello-kotlin /app/hello-kotlin
+CMD ["./hello-kotlin"]
